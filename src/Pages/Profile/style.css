@@ -1,0 +1,19 @@
+@import url('/src/App.css');
+
+.profile-layout{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.detail-box{
+    display: flex;
+    gap: 10px;
+}
+
+.detail-box > img{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+}

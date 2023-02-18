@@ -1,0 +1,27 @@
+@import url('/src/App.css');
+
+.btn-grp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.btn-grp-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 8px;
+    height: 40px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-grp-btn>h2 {
+    font-weight: 600;
+    color: var(--font-color-700);
+}
+
+.btn-grp-btn:hover {
+    background-color: var(--color-secondary);
+}

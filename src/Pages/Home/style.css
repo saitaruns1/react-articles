@@ -1,0 +1,33 @@
+@import url('/src/App.css');
+
+.card-container {
+    flex: 4;
+    max-width: 1200px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns:repeat(2, 1fr);
+}
+
+@media (max-width: 900px) {
+    .home-layout{ flex-direction: column;}
+    /* .search-box{width: 200px;margin: 0 auto;} */
+}
+
+@media (max-width: 600px) {
+    .card-container { grid-template-columns:1fr; }
+    .search-box{width: 100%;text-align: center;}
+}
+
+.home-layout{
+    display: flex;
+    gap: 20px;
+}
+
+.search-box{
+    flex: 1;
+    text-align: center;
+}
+
+.search-input{
+    width: 100%;
+}

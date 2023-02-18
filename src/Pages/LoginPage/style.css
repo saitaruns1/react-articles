@@ -1,0 +1,6 @@
+@import url('/src/App.css');
+
+.log-in-form{
+    display: flex;
+    flex-direction: column;
+}
