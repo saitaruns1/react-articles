@@ -33,7 +33,7 @@ const Article = () => {
                 </div>
             </div> */}
             <img className='banner-image' src={image_url} alt="" />
-            <p className='text'>{text_content}</p>
+            <p className='text'  dangerouslySetInnerHTML={{__html: text_content}}></p>
         </div>
     )
 }

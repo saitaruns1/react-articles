@@ -9,7 +9,6 @@ import {API_URL} from '../../Authservice'
 import authHeader from '../../Authheader';
 
 function Home() {
-
   const [text, setText] = useState("")
   const [articles, setArticles] = useState([])
 

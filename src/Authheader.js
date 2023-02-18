@@ -7,3 +7,13 @@ export default function authHeader() {
         return {};
     }
 }
+
+export function getUserId(){
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (user && user.auth_token) {
+        return user.user.id
+    } else {
+        return {};
+    }
+}
