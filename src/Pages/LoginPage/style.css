@@ -1,6 +1,25 @@
 @import url('/src/App.css');
 
-.log-in-form{
+.auth-form{
     display: flex;
     flex-direction: column;
+    gap: 10px;
+    width: 50vw;
+}
+
+.auth-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width:900px) {
+    .auth-page{
+        width: 90vw;
+        margin: 0 auto;
+    }
+    .auth-form{
+        width: 100%;
+    }
 }

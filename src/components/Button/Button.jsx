@@ -2,7 +2,7 @@ import React from 'react'
 
 const Button = ({text,classname,callBack}) => {
   return (
-    <div className={classname} onClick={callBack}>{text}</div>
+    <button className={classname?classname:"btn btn-secondary"} onClick={callBack}><h3>{text}</h3></button>
   )
 }
 

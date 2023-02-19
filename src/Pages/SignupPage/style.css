@@ -1,6 +1,1 @@
 @import url('/src/App.css');
-
-.sign-up-form{
-    display: flex;
-    flex-direction: column;
-}

@@ -12,30 +12,9 @@ import htmlToDraft from 'html-to-draftjs';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
+import Button from '../../components/Button/Button';
 
 
-const initialValues = {
-    title: '',
-    category: '',
-    bio: '',
-    text_content: '',
-    user: '',
-}
-
-const onSubmit = (values) => {
-
-    const user = JSON.parse(localStorage.getItem('user'));
-    const reqBody = {
-        title: values.title,
-        category_name: values.category,
-        description: values.bio,
-        text_content: values.text_content,
-        image_url:"",
-        user_id: user.user.id,
-    }
-    axios.post(API_URL + '/article',reqBody ,{ headers: authHeader() },)
-        .then((response) => console.log(response))
-}
 
 const validate = values => {
     const errors = {};
@@ -66,20 +45,53 @@ function createMarkup(html) {
     }
 }
 
-const CreateArticle = () => {
+const CreateArticle = ({ article_id }) => {
 
+    const [article, setArticle] = useState({})
     const [categories, setCategories] = useState([])
+
+    const onSubmit = (values, { resetForm }) => {
+        const reqBody = {
+            title: values.title,
+            category_name: values.category,
+            description: values.bio,
+            text_content: values.text_content,
+            image_url: "",
+        }
+        if (!article_id) {
+            reqBody["user_id"] = JSON.parse(localStorage.getItem('user')).user.id
+            axios.post(API_URL + '/article', reqBody, { headers: authHeader() },)
+                .then((response) => {
+                    console.log(response)
+                    resetForm();
+                })
+        }
+        else {
+            reqBody["user_id"] = article.user_id
+            axios.put(API_URL + '/article/'+article.id, reqBody, { headers: authHeader() })
+                .then((resp) => {
+                    console.log(resp)
+                })
+        }
+    }
 
     useEffect(() => {
         axios.get(API_URL + '/categories')
             .then((response) => {
-                console.log(response.data)
                 setCategories(response.data)
             })
     }, [])
 
     const formik = useFormik({
-        initialValues,
+        initialValues:
+        {
+            title: (article.title !== undefined || article.title !== null)  ? article.title : "",
+            category: article.category_name ? article.category_name : "",
+            bio: article.description ? article.description : "",
+            text_content: article.text_content ? article.text_content : "",
+            user: article.user_id ? article.user_id : "",
+        },
+        enableReinitialize: true,
         onSubmit,
         validate
     });
@@ -94,17 +106,27 @@ const CreateArticle = () => {
     const [convertedContent, setConvertedContent] = useState(null);
 
     useEffect(() => {
+        if (article_id) {
+            axios.get(API_URL + `/article/byarticleid/${article_id}`, { headers: authHeader() })
+                .then((response) => {
+                    setArticle(response.data[0])
+                })
+        }
+    }, [])
+
+    useEffect(() => {
         const forFormik = draftToHtml(
             convertToRaw(editorState.getCurrentContent())
         );
         formik.setFieldValue("text_content", forFormik)
-        setEditorState(editorState);
+        // setEditorState(editorState);
         let html = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(html);
     }, [editorState]);
 
     return (<>
         <form className='article-form container' onSubmit={formik.handleSubmit}>
+            <div className='header'>Create or Edit Article</div>
             <InputBox
                 id="title"
                 name="title"
@@ -115,7 +137,7 @@ const CreateArticle = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.title}
             />
-            {formik.touched.title && formik.errors.title ? <div>{formik.errors.title}</div> : null}
+            {formik.touched.title && formik.errors.title ? <div className='error-text'>{formik.errors.title}</div> : null}
             <InputBox
                 id="bio"
                 name="bio"
@@ -126,9 +148,11 @@ const CreateArticle = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.bio}
             />
-            {formik.touched.bio && formik.errors.bio ? <div>{formik.errors.bio}</div> : null}
+            {formik.touched.bio && formik.errors.bio ? <div className='error-text'>{formik.errors.bio}</div> : null}
             <FormikProvider value={formik}>
                 <Field
+                    label="Category"
+                    className="input-text select-input"
                     value={formik.values.category}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -142,7 +166,7 @@ const CreateArticle = () => {
                     })}
                 </Field>
             </FormikProvider>
-            {formik.touched.category && formik.errors.category ? <div>{formik.errors.category}</div> : null}
+            {formik.touched.category && formik.errors.category ? <div className='error-text'>{formik.errors.category}</div> : null}
             <Editor
                 editorState={editorState}
                 onEditorStateChange={setEditorState}
@@ -152,7 +176,7 @@ const CreateArticle = () => {
             />
             <div className="preview"
                 dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-            <button type="submit">Submit</button>
+            <Button type="submit" text="Save" classname="btn btn-primary" />
         </form>
     </>
     );

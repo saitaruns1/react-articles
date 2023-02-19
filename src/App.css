@@ -75,7 +75,7 @@ html {
 }
 
 .container {
-  padding: 0px 32px;
+  padding: 0px 60px;
 }
 
 .btn {
@@ -140,4 +140,13 @@ input[type=text],
 input[type=email],
 textarea {
   font-size: var(--font-size-16);
+}
+
+
+.error-text{
+  color: red;
+}
+
+.input-box{
+  margin-bottom: 5px;
 }

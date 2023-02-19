@@ -14,6 +14,6 @@ export function getUserId(){
     if (user && user.auth_token) {
         return user.user.id
     } else {
-        return {};
+        return null;
     }
 }

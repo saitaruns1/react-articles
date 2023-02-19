@@ -2,7 +2,9 @@ import React from 'react';
 import { useFormik } from 'formik';
 import InputBox from '../../components/InputBox/InputBox';
 import './style.css'
-import { register_user,getCurrentUser } from '../../Authservice';
+import { register_user } from '../../Authservice';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Button/Button';
 const initialValues = {
     name: '',
     email: '',
@@ -10,22 +12,7 @@ const initialValues = {
     password: '',
 }
 
-const onSubmit = (values) => {
-  console.log(values.password)
-    register_user(
-        values.name,
-        values.email,
-        values.bio,
-        values.password
-      ).then(
-        response => {
-          console.log(response)
-        },
-        error => {
-          console.log(error)
-        }
-      );
-}
+
 
 const validate = values => {
     const errors = {};
@@ -53,14 +40,33 @@ const validate = values => {
   };
 
 const SignupPage = () => {
+  const navigate = useNavigate()
+
+  const onSubmit = (values) => {
+    console.log(values.password)
+      register_user(
+          values.name,
+          values.email,
+          values.bio,
+          values.password
+        ).then(
+          response => {
+            navigate("/login");
+            window.location.reload();
+          },
+          error => {
+            console.log(error)
+          }
+        );
+  }
     const formik = useFormik({
         initialValues,
         onSubmit,
         validate
     });
-    return (<>
-        <h3>Create an account</h3>
-        <form className='sign-up-form' onSubmit={formik.handleSubmit}>
+    return (<div className='auth-page'>
+        <h1>Create an account</h1>
+        <form className='auth-form' onSubmit={formik.handleSubmit}>
             <InputBox 
                 id="name"
                 name="name"
@@ -71,7 +77,7 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.name}
              />
-             {formik.touched.name && formik.errors.name ? <div>{formik.errors.name}</div> : null}
+             {formik.touched.name && formik.errors.name ? <div className='error-text'>{formik.errors.name}</div> : null}
             
              <InputBox 
                 id="bio"
@@ -83,7 +89,7 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.bio}
              />
-             {formik.touched.bio && formik.errors.bio ? <div>{formik.errors.bio}</div> : null}
+             {formik.touched.bio && formik.errors.bio ? <div className='error-text'>{formik.errors.bio}</div> : null}
 
             <InputBox 
                 id="email"
@@ -95,7 +101,7 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
              />
-             {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+             {formik.touched.email && formik.errors.email ? <div className='error-text'>{formik.errors.email}</div> : null}
              <InputBox 
                 id="password"
                 name="password"
@@ -106,10 +112,10 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
              />
-             {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
-            <button type="submit">Submit</button>
+             {formik.touched.password && formik.errors.password ? <div className='error-text'>{formik.errors.password}</div> : null}
+            <Button classname="btn btn-primary" type="submit" text={"Sign Up"} />
         </form>
-        </>
+        </div>
     );
 };
 

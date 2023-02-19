@@ -1,8 +1,9 @@
 @import url('/src/App.css');
 
 .card-container {
-    flex: 4;
+    flex: 5;
     max-width: 1200px;
+    width: 70%;
     display: grid;
     gap: 1rem;
     grid-template-columns:repeat(2, 1fr);
@@ -10,7 +11,7 @@
 
 @media (max-width: 900px) {
     .home-layout{ flex-direction: column;}
-    /* .search-box{width: 200px;margin: 0 auto;} */
+    .card-container{ width: 100%;}
 }
 
 @media (max-width: 600px) {
@@ -24,8 +25,11 @@
 }
 
 .search-box{
-    flex: 1;
+    flex: 2;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .search-input{

@@ -1,26 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import InputBox from '../../components/InputBox/InputBox';
 import './style.css'
 import { login_user } from '../../Authservice';
+import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Button/Button';
+import { getUserId } from '../../Authheader';
 
 const initialValues = {
     email: '',
     password: '',
     checked: false,
-}
-
-const onSubmit = (values) => {
-    login_user(values.email, values.password).then(
-        (response) => {
-        //   this.props.router.navigate("/profile");
-        //   window.location.reload();
-        console.log(response)
-        },
-        error => {
-          console.log(error)
-        }
-      );
 }
 
 const validate = values => {
@@ -39,16 +29,40 @@ const validate = values => {
     return errors;
   };
 
-const SignupPage = () => {
+const LoginPage = () => {
+
+  const navigate = useNavigate()
+
+  useEffect(()=>{
+    console.log(getUserId())
+    if(getUserId()){
+      navigate('/')
+      // window.location.reload();
+    }
+  },[])
+
+  const onSubmit = (values) => {
+    login_user(values.email, values.password).then(
+        (response) => {
+          navigate("/");
+          window.location.reload();
+        },
+        error => {
+          console.log(error)
+        }
+      );
+}
+
     const formik = useFormik({
         initialValues,
         onSubmit,
         validate
     });
-    return (<>
-        <h3>Log in to your account</h3>
+
+    return (<div className='auth-page'>
+        <h1>Log in to your account</h1>
         <p>Welcome back! Please enter your details </p>
-        <form className='log-in-form' onSubmit={formik.handleSubmit}>
+        <form className='auth-form' onSubmit={formik.handleSubmit}>
             <InputBox 
                 id="email"
                 name="email"
@@ -59,7 +73,7 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
              />
-             {formik.touched.email && formik.errors.email ? <div>{formik.errors.email}</div> : null}
+             {formik.touched.email && formik.errors.email ? <div className='error-text'>{formik.errors.email}</div> : null}
              <InputBox 
                 id="password"
                 name="password"
@@ -70,7 +84,7 @@ const SignupPage = () => {
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
              />
-             {formik.touched.password && formik.errors.password ? <div>{formik.errors.password}</div> : null}
+             {formik.touched.password && formik.errors.password ? <div className='error-text'>{formik.errors.password}</div> : null}
              <InputBox 
              id="remember"
              name="remember"
@@ -79,10 +93,10 @@ const SignupPage = () => {
              onChange={formik.handleChange}
              value={formik.values.checked}
              />
-            <button type="submit">Login</button>
+            <Button classname="btn btn-primary" type="button" text="Login" />
         </form>
-        </>
+        </div>
     );
 };
 
-export default SignupPage
+export default LoginPage

@@ -6,6 +6,7 @@ import LoginPage from './Pages/LoginPage/LoginPage'
 import SingupPage from './Pages/SignupPage/SignupPage'
 import Profile from './Pages/Profile/Profile'
 import CreateArticle from './Pages/CreateArticle/CreateArticle'
+import EditArticle from './Pages/CreateArticle/EditArticle'
 
 const App = () => {
   return (
@@ -13,8 +14,9 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SingupPage />} />
+        <Route path='/article/edit/:id' element={<EditArticle />} />
+        <Route path='/article/new' element={<CreateArticle />} />
         <Route path='/article/:id' element={<Article />} />
-        <Route path='/createarticle' element={<CreateArticle />} />
         <Route path='/profile/:id' element={<Profile />} />
     </Routes>
   )
