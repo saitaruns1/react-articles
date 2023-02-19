@@ -4,29 +4,14 @@ import ButtonGroup from '../../components/ButtonGroup/ButtonGroup';
 import Card from '../../components/Card/Card';
 import InputBox from '../../components/InputBox/InputBox';
 import './style.css'
-import {API_URL} from '../../Authservice'
+import { API_URL } from '../../Authservice'
 import authHeader from '../../Authheader';
+import { useParams } from 'react-router-dom';
 
-function Home() {
+function Home({articles,categories,loading}) {
+
+  const { query } = useParams()
   const [text, setText] = useState("")
-  const [articles, setArticles] = useState([])
-  const [categories,setCategories]= useState([])
-
-  useEffect(() => {
-    const fetchData = async () =>{
-      const resp1 = await axios.get(API_URL+'/article',{ headers: authHeader() });
-      const resp2 = await axios.get(API_URL+'/categories')
-
-      setArticles(resp1.data)
-
-      console.log(resp1.data)
-
-      const cat = resp2.data.map((c)=>{return{text:c.category_name}})
-
-      setCategories(cat)
-    }
-    fetchData()
-  }, [])
 
   return (
     <div className="App container">
@@ -36,8 +21,9 @@ function Home() {
           <ButtonGroup btns={categories} />
         </div>
         <div className='card-container'>
+          {loading && <h1>Loading...</h1>}
           {articles && articles.map((article) => {
-            return <Card key={article.id} article={article} author={{user_id:article.user_id,username:article.username,image_url:""}} />
+            return <Card key={article.id} article={article} author={{ user_id: article.user_id, username: article.username, image_url: "" }} />
           })}
         </div>
       </div>

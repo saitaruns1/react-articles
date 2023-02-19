@@ -33,8 +33,6 @@ const validate = values => {
 
 
 const Profile = () => {
-
-
     const { id } = useParams()
     const [isLoading, setIsLoading] = useState(true)
     const [editMode, setEditMode] = useState(false)
@@ -50,7 +48,6 @@ const Profile = () => {
             image_url: '',
             description: values.bio
         }
-        console.log(prof)
         axios.put(API_URL + `/profile/${id}`,
             prof
             , { headers: authHeader() })

@@ -12,6 +12,10 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 50px;
+}
+.auth-page > p{
+    margin: 10px 0px;
 }
 
 @media (max-width:900px) {

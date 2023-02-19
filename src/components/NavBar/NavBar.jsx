@@ -1,43 +1,43 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getUserId } from '../../Authheader'
 import { logout_user } from '../../Authservice'
 import Button from '../Button/Button'
 import InputBox from '../InputBox/InputBox'
 import './style.css'
 
-const NavBar = () => {
-
-  const [queryText,setQueryText] = useState("")
+const NavBar = ({ queryText, setQueryText, onSearchBtnClicked }) => {
 
   const navigate = useNavigate()
+  const location = useLocation();
 
   const handleLogout = () => {
     logout_user()
     navigate(0)
   }
 
-  const handleSearch = (e)=>{
+  const handleSearch = (e) => {
     setQueryText(e.target.value)
   }
 
-  // const handleSubmit = ()=>{
-  //   console.log(queryText)
-  // }
+  const handleSubmit = () => {
+    onSearchBtnClicked(queryText)
+  }
 
   return (
     <nav>
       <Link to="/" className='logo'>Articles</Link>
-      <div>
-      <InputBox
-        id="search"
-        type="text"
-        placeholder="Search for articles"
-        onChange={handleSearch}
-        value={queryText}
-      />
-      {/* <Button text="Search" callBack={handleSubmit} /> */}
-      </div>
+      {(location.pathname !== '/login' && location.pathname !== '/signup') &&
+        <div>
+          <InputBox
+            id="search"
+            type="text"
+            placeholder="Search for articles"
+            onChange={handleSearch}
+            value={queryText}
+          />
+          <Button text="Search" callBack={handleSubmit} />
+        </div>}
       <div>
         <Link className='btn btn-primary home-btn' to='/'>Home</Link>
         {getUserId() ? <>
