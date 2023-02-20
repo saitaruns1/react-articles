@@ -4,7 +4,7 @@ import InputBox from '../../components/InputBox/InputBox';
 import './style.css'
 import { API_URL } from '../../Authservice';
 import axios from 'axios';
-import authHeader from '../../Authheader';
+import authHeader, { getUserId } from '../../Authheader';
 import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
@@ -107,9 +107,9 @@ const CreateArticle = ({ article_id }) => {
 
     useEffect(() => {
         if (article_id) {
-            axios.get(API_URL + `/article/byarticleid/${article_id}`, { headers: authHeader() })
+            axios.get(API_URL + `/article/byarticleid/${article_id}/${getUserId()}`, { headers: authHeader() })
                 .then((response) => {
-                    setArticle(response.data[0])
+                    setArticle(response.data.article[0])
                 })
         }
     }, [])

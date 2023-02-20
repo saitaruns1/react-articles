@@ -26,7 +26,7 @@ const NavBar = ({ queryText, setQueryText, onSearchBtnClicked }) => {
 
   return (
     <nav>
-      <Link to="/" className='logo'>Articles</Link>
+      <a href="/" className='logo'>Articles</a>
       {(location.pathname !== '/login' && location.pathname !== '/signup') &&
         <div>
           <InputBox

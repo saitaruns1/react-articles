@@ -1,0 +1,11 @@
+@import url('/src/App.css');
+
+.comment{
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+}
+
+.comment-user{
+    font-weight: 800;
+}

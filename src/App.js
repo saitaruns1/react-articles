@@ -26,22 +26,21 @@ const App = () => {
     setArticles(resp1.data)
     console.log(resp1.data)
 
-    const cat = resp2.data.map((c) => { return { text: c.category_name } })
+    const cat = resp2.data.map((c) => { return { text: c.category_name,callBack : searchArticlesByCategory } })
 
     setCategories(cat)
     setLoading(false)
   }
 
   useEffect(() => {
-    
     fetchData()
   }, [])
 
   const searchArticles = async (query) => {
-    if(query==='') {
-      fetchData()
-      return
-    }
+    // if(query==='') {
+    //   fetchData()
+    //   return
+    // }
     setArticles([])
     setLoading(true)
     const resp = await axios.get(API_URL + '/articlefilter/' + query)
@@ -50,11 +49,19 @@ const App = () => {
     setLoading(false)
   }
 
+  const searchArticlesByCategory = async (cat)=>{
+    axios.get(API_URL+'/categoryfilter/'+cat)
+    .then((resp)=>{
+      console.log(resp)
+      setArticles(resp.data)
+    })
+  }
+
   return (
     <div>
-      <NavBar queryText={queryText} setQueryText={setQueryText} onSearchBtnClicked={searchArticles} />
+      <NavBar queryText={queryText} setQueryText={setQueryText} onSearchBtnClicked={searchArticles}  />
     <Routes>
-        <Route path='/' element={<Home articles={articles} categories={categories} loading={loading} />} />
+        <Route path='/' element={<Home articles={articles} categories={categories} loading={loading}  />} />
         {/* <Route path='/s/:query' element={<Home articles={articles} categories={categories} />} /> */}
         <Route path='/login' element={<LoginPage />} />
         <Route path='/signup' element={<SingupPage />} />

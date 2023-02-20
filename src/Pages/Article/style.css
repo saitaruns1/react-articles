@@ -3,19 +3,23 @@
 .article{
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 80vw;
-    text-align: center;
     margin: 0 auto;
     gap: 20px;
 }
 
 .tag{
     color: var(--color-primary-700);
+    margin: 0 auto;
+}
+
+.title{
+    margin: 0 auto;
 }
 
 .desc{
     font-size: 20px;
+    margin: 0 auto;
 }
 
 .banner-image{
@@ -28,6 +32,7 @@
 .author-details{
     display: flex;
     gap: 10px;
+    margin: 0 auto;
 }
 
 .author-box{
@@ -46,5 +51,11 @@
 }
 
 .text{
-    padding: 20px 100px;
+    padding: 20px 20px;
+}
+
+.comment-box{
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
 }

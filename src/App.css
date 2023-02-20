@@ -92,6 +92,16 @@ html {
   transition: .2s;
 }
 
+.icon-btn{
+  display: flex;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  transition: .2s;
+  gap: 10px;
+  width: fit-content;
+}
+
 .btn>h3 {
   font-weight: 600;
 }
