@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { getUserId } from '../../Authheader'
 import { logout_user } from '../../Authservice'
@@ -6,7 +6,9 @@ import Button from '../Button/Button'
 import InputBox from '../InputBox/InputBox'
 import './style.css'
 
-const NavBar = ({ queryText, setQueryText, onSearchBtnClicked }) => {
+const NavBar = () => {
+
+  const [queryText,setQueryText] = useState("") 
 
   const navigate = useNavigate()
   const location = useLocation();
@@ -21,7 +23,7 @@ const NavBar = ({ queryText, setQueryText, onSearchBtnClicked }) => {
   }
 
   const handleSubmit = () => {
-    onSearchBtnClicked(queryText)
+    navigate('/s/'+queryText)
   }
 
   return (

@@ -6,12 +6,60 @@ import InputBox from '../../components/InputBox/InputBox';
 import './style.css'
 import { API_URL } from '../../Authservice'
 import authHeader from '../../Authheader';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-function Home({articles,categories,loading}) {
+function Home() {
 
-  const { query } = useParams()
+  const navigate = useNavigate()
+  const { query, category_text } = useParams()
+  console.log(query, category_text)
   const [text, setText] = useState("")
+
+  const [articles, setArticles] = useState([])
+  const [categories, setCategories] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  
+  useEffect(() => {
+    axios.get(API_URL + '/categories').then((res)=>{
+      const cat = res.data.map((c) => { return { text: c.category_name, callBack: () => { navigate('/c/'+c.category_name) } } })
+      setCategories(cat)
+    })
+
+    const fetchData = async () => {
+      const resp = await axios.get(API_URL + '/article', { headers: authHeader() });
+      console.log(resp)
+      setArticles(resp.data)
+      setLoading(false)
+    }
+
+    const searchArticles = async () => {
+      setArticles([])
+      setLoading(true)
+      const resp = await axios.get(API_URL + '/articlefilter/' + query)
+      setArticles(resp.data)
+      setLoading(false)
+    }
+
+    const searchArticlesByCategory = async () => {
+      setArticles([])
+      setLoading(true)
+      const resp = await axios.get(API_URL + '/categoryfilter/' + category_text)
+      setArticles(resp.data)
+      setLoading(false)
+    }
+
+    if ((query === undefined || query == "") && (category_text === undefined || category_text == "")) { 
+      fetchData() 
+    }
+    else if(query !== undefined){
+      searchArticles()
+    }
+    else{
+      searchArticlesByCategory()
+    }
+  }, [query,category_text])
+  
 
   return (
     <div className="App container">
