@@ -32,6 +32,10 @@ body {
   transition: .2s;
 }
 
+.anchor{
+  cursor: pointer;
+}
+
 h1,
 h2,
 h3,

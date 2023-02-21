@@ -30,7 +30,7 @@ const NavBar = () => {
     <nav>
       <a href="/" className='logo'>Articles</a>
       {(location.pathname !== '/login' && location.pathname !== '/signup') &&
-        <div>
+        <form onSubmit={(e)=>{e.preventDefault()}} className='search-bar'>
           <InputBox
             id="search"
             type="text"
@@ -38,8 +38,8 @@ const NavBar = () => {
             onChange={handleSearch}
             value={queryText}
           />
-          <Button text="Search" callBack={handleSubmit} />
-        </div>}
+          <Button type="submit" text="Search" callBack={handleSubmit} />
+        </form>}
       <div>
         <Link className='btn btn-primary home-btn' to='/'>Home</Link>
         {getUserId() ? <>

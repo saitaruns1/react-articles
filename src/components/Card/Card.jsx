@@ -1,10 +1,11 @@
 import axios from 'axios'
 import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import authHeader, { getUserId } from '../../Authheader'
 import { API_URL } from '../../Authservice'
 import Button from '../Button/Button'
 import './style.css'
+import { format } from 'date-fns'
 
 const Card = ({ article, author }) => {
 
@@ -32,7 +33,7 @@ const Card = ({ article, author }) => {
     }
 
     return (
-        <Link to={`/article/${id}`} className="card">
+        <div onClick={()=>{navigate(`/article/${id}`)}} className="card anchor">
             <div className="card-header">
                 <img src={(image_url && image_url === '') ? image_url : "https://source.unsplash.com/random"} alt="rover" />
                 {location.pathname === `/profile/${getUserId()}` && <>
@@ -48,17 +49,17 @@ const Card = ({ article, author }) => {
                 <h3>
                     {description}
                 </h3>
-                <Link to={`/profile/${user_id}`}>
+                <div className='anchor' onClick={()=>{navigate(`/profile/${user_id}`)}}>
                     <div className="user">
                         <img src={(user_img && user_img === '') ? user_img : "https://source.unsplash.com/random"} alt="user" />
                         <div className="user-info">
                             <h5>{username}</h5>
-                            <small>{created_at}</small>
+                            <small>{format(new Date(created_at), 'dd/MM/yyyy')}</small>
                         </div>
                     </div>
-                </Link>
+                </div>
             </div>
-        </Link>
+        </div>
     )
 }
 

@@ -1,21 +1,35 @@
 @import url('/src/App.css');
 
-.card-container {
+.main-container{
     flex: 5;
     max-width: 1200px;
-    width: 70%;
+    width: 70%;   
+}
+
+.card-container {
+    width: 100%;
     display: grid;
     gap: 1rem;
     grid-template-columns:repeat(2, 1fr);
 }
 
+.filter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter > select{
+    cursor: pointer;
+}
+
 @media (max-width: 900px) {
     .home-layout{ flex-direction: column;}
-    .card-container{ width: 100%;}
+    .main-container{ width: 100%;}
 }
 
 @media (max-width: 600px) {
-    .card-container { grid-template-columns:1fr; }
+    .main-container { grid-template-columns:1fr; }
     .search-box{width: 100%;text-align: center;}
 }
 

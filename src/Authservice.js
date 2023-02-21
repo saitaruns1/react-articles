@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_URL = "http://172.25.25.193:3000/";
+export const API_URL = "http://192.168.163.152:3000/";
 
 export const login_user = (email, password)=> {
     return axios

@@ -16,6 +16,7 @@ const App = () => {
       <NavBar  />
     <Routes>
         <Route path='/' element={<Home  />} />
+        <Route path='/mostliked' element={<Home  />} />
         <Route path='/s/:query' element={<Home />} />
         <Route path='/c/:category_text' element={<Home />} />
         <Route path='/login' element={<LoginPage />} />
